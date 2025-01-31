@@ -1,0 +1,20 @@
+.navbar_container{
+    display: flex;
+    justify-content: space-between;
+    background-color: #535bf2;
+    color: #fff;
+    padding: 1rem;
+    font-size: 1.2rem;
+}
+.navbar_title{
+    font-size: 1.5rem;
+    cursor: pointer;
+}
+.container_links,.links_navbar{
+    display: flex;
+    gap: 1rem;
+}
+.links_navbar li a{
+    color: #fff;
+  
+}

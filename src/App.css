@@ -1,0 +1,19 @@
+#root {
+  max-width: 1992px;
+  margin: 0 auto;
+  min-height: 100vh;
+}
+body{
+  background-color: #F5F4F9;
+}
+header{
+  height: 10%;
+}
+main{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 90%;
+}
+
+
