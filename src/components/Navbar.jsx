@@ -5,6 +5,7 @@ import "./Navbar.css";
 function Navbar() {
     const username = JSON.parse(localStorage.getItem("user"))?.username;  
     const [isLoggedIn, setIsLoggedIn] = useState(false);
+    const [dropdownOpen, setDropdownOpen] = useState(false);
 
     useEffect(() => {
         const token = localStorage.getItem("token");
@@ -17,23 +18,29 @@ function Navbar() {
         setIsLoggedIn(false); 
         window.location.reload()
     };
-
-
+    const handleDropList = () =>{
+        setDropdownOpen((prev) => !prev);
+    }
+    const closeDropdown = () => {
+        setDropdownOpen(false);
+    };
     return (
         <div className="navbar_container">
             <div className="logo_navbar">
-                <h3 className="navbar_title">MyShop</h3>
+                <li><NavLink to="/Home">My Shop</NavLink></li>
             </div>
+            
             <div className="container_links">
-                <ul className="links_navbar">
-                    {isLoggedIn && <li><NavLink to="/Home">Home</NavLink></li>}
-                    {!isLoggedIn && <li><NavLink to="/Login">Sign In</NavLink></li>}
+                <img onClick={handleDropList} className="list_icon" src = {!dropdownOpen ? 'list-solid.svg' : 'xmark-solid.svg'} alt="list" />
+                <ul className={`links_navbar ${dropdownOpen ? "open" : ""}`}>
+                    {isLoggedIn && <li><NavLink to="/Home" onClick={closeDropdown}>Home</NavLink></li>}
+                    {!isLoggedIn && <li><NavLink to="/Login" onClick={closeDropdown}>Sign In</NavLink></li>}
                     {isLoggedIn && (
-                        <li><NavLink onClick={handleLogout} className="btn_logout">Log Out</NavLink></li>
+                        <li><NavLink onClick={() => {handleLogout() , closeDropdown()}} className="btn_logout">Log Out</NavLink></li>
                     )}
-                    {isLoggedIn && <li><NavLink to="/Cart">Cart</NavLink></li>}
+                    {isLoggedIn && <li><NavLink to="/Cart" onClick={closeDropdown}>Cart</NavLink></li>}
+                    {isLoggedIn && <p>Welcome, {username}</p>}
                 </ul>
-                {isLoggedIn && <p>Welcome, {username}</p>}
             </div>
         </div>
     );

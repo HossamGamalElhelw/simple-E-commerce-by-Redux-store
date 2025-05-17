@@ -42,22 +42,22 @@ function Cart() {
                     {cartProduct.length > 0 ? (cartProduct.map((item) => {
                         return(
                             <div className='product_cart_item' key={item.product.id}>
-                            <div className="product_info">
-                                <picture className='product_picture'>
-                                    <img className='product_img' src={item.product.images[0]} alt="" />
-                                </picture>
-                            <div>
-                                <p className='product_title'>{item.product.title}</p>
-                                <p className='product_price'>${item.product.price}</p>
+                                <div className="product_info">
+                                    <picture className='product_picture'>
+                                        <img className='product_img' src={item.product.images[0]} alt="" />
+                                    </picture>
+                                <div>
+                                    <p className='product_title'>{item.product.title}</p>
+                                    <p className='product_price'>${item.product.price}</p>
+                                </div>
+                            </div>
+                            <div className="btn_controls">
+                                <button onClick={() => decreaseQuantity(item.product)} className='btn_decrease'>-</button>
+                                <p className='numProduct'>{item.quantity}</p>
+                                <button onClick={() => increaseQuantity(item.product)} className='btn_increase'>+</button>
+                                <button onClick={() => btnRemove(item.product)} className='remove_btn'>Remove</button>
                             </div>
                         </div>
-                        <div className="btn_controls">
-                            <button onClick={() => decreaseQuantity(item.product)} className='btn_decrease'>-</button>
-                            <p className='numProduct'>{item.quantity}</p>
-                            <button onClick={() => increaseQuantity(item.product)} className='btn_increase'>+</button>
-                            <button onClick={() => btnRemove(item.product)} className='remove_btn'>Remove</button>
-                        </div>
-                    </div>
                     )})) : (<h4>Cart is empty</h4>) }
             <div className="sum_and_remove_btn">
                     <h4 className='total_prices'>Total : ${sumPrices.toFixed(2) || 0} </h4>
