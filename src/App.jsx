@@ -4,35 +4,37 @@ import Login from './components/Login';
 import Navbar from './components/Navbar';
 import Home from './components/Home';
 import ProtectRoute from './components/protectRoute';
+
 import './App.css';
-import Cart from './components/Cart';
+import Cart from './components/cart';
 
 function App() {
-  const isLoggedIn = JSON.parse(localStorage.getItem('loggedIn')) || false;
-  console.log("User is logged in:", isLoggedIn);
+  const isLoggedIn = localStorage.getItem("token") !== null;  
 
   return (
-    <BrowserRouter>
-      <header>
-        <Navbar />
-      </header>
-      <main>
-        <Routes>          
-          {!isLoggedIn ? (
-            <>
-              <Route path="/Login" element={<Login />} />
-              <Route path="/" element={<Login />} />
-            </>
-          ) :
-            <Route path='/' element = {<Navigator to="/Home"/>} />
-        } 
+    <UserProvider>
+      <BrowserRouter>
+        <header>
+          <Navbar />
+        </header>
+        <main>
+          <Routes>
+            {!isLoggedIn ? (
+              <>
+                <Route path="/Login" element={<Login />} />
+                <Route path="/" element={<Navigate to="/Login" />} />
+              </>
+            ) : (
+              <Route path="/" element={<Navigate to="/Home" />} />
+            )}
             <Route element={<ProtectRoute />}>
               <Route path="/Home" element={<Home />} />
               <Route path="/Cart" element={<Cart />} />
-          </Route>
-        </Routes>
-      </main>
-    </BrowserRouter>
+            </Route>
+          </Routes>
+        </main>
+      </BrowserRouter>
+    </UserProvider>
   );
 }
 

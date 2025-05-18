@@ -4,6 +4,8 @@ import './Home.css';
 function Home() {
     const [productsApi, setProductsApi] = useState([]);
     const NUM_PRODUCT_PER_PAGE = 12;
+    const [currentPage, setCurrentPage] = useState(1);
+    const [totalPages, setTotalPages] = useState(0);
     const [startIndex,setStartIndex] = useState(0); 
     const [endIndex,setEndIndex] = useState(12);
     const [cart , setcart] = useState([]);
@@ -16,6 +18,8 @@ function Home() {
                 const data = await fetch('https://dummyjson.com/products');
                 const results = await data.json();
                 setProductsApi(results.products);
+                setTotalPages(Math.ceil(results.products.length / NUM_PRODUCT_PER_PAGE));
+                setCurrentPage(1);
             } catch (error) {
                 console.log(error);
             }
@@ -33,6 +37,7 @@ function Home() {
         if(startIndex > 0){
             setStartIndex(startIndex - NUM_PRODUCT_PER_PAGE);
             setEndIndex(endIndex - NUM_PRODUCT_PER_PAGE);
+            setCurrentPage(currentPage - 1);
         }
     }
     const  ClickNextBtn = (e) =>{
@@ -40,6 +45,7 @@ function Home() {
         if( productsApi.length > endIndex){
             setStartIndex(startIndex + NUM_PRODUCT_PER_PAGE);
             setEndIndex(endIndex + NUM_PRODUCT_PER_PAGE);
+            setCurrentPage(currentPage + 1);
         }
     }
     const HandleAddToCard = (product) =>{

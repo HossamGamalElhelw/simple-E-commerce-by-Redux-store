@@ -2,8 +2,8 @@ import React from 'react';
 import { Navigate, Outlet } from 'react-router-dom';
 
 function ProtectRoute() {
-  const isLoggedIn = JSON.parse(localStorage.getItem('loggedIn')) || false;
-  return isLoggedIn ? <Outlet /> : <Navigate to="/Login" />;
+  const token = localStorage.getItem("token");
+  return token ? <Outlet /> : <Navigate to="/Login" replace />;
 }
 
 export default ProtectRoute;
