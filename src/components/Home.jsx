@@ -7,6 +7,8 @@ function Home() {
     const [startIndex,setStartIndex] = useState(0); 
     const [endIndex,setEndIndex] = useState(12);
     const [cart , setcart] = useState([]);
+    const currentPage = Math.floor(startIndex / NUM_PRODUCT_PER_PAGE) + 1;
+    const totalPages = Math.ceil(productsApi.length / NUM_PRODUCT_PER_PAGE);
 
     useEffect(()=>{
         const products = async() =>{
@@ -74,6 +76,7 @@ function Home() {
         </div>
         <div className="btn_control">
             <button onClick={ClickPreviousBtn} className='btn_previous'>Previous</button>
+            <p className='numberPage'>{currentPage} : {totalPages}</p>
             <button onClick={ClickNextBtn} className='btn_next'>Next</button>
         </div>
     </div>

@@ -1,12 +1,11 @@
 import React from 'react';
-import { BrowserRouter, Route, Routes,Navigate } from 'react-router-dom';
+import { BrowserRouter, Route, Routes, Navigate } from 'react-router-dom';
 import Login from './components/Login';
 import Navbar from './components/Navbar';
 import Home from './components/Home';
 import ProtectRoute from './components/protectRoute';
-
 import './App.css';
-import Cart from './components/cart';
+import Cart from './components/Cart';
 
 function App() {
   const isLoggedIn = JSON.parse(localStorage.getItem('loggedIn')) || false;
