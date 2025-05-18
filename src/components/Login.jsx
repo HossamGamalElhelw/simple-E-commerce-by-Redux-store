@@ -1,52 +1,55 @@
-import React,{useState,useEffect,useRef, useContext} from 'react'
+import React,{useState,useEffect,useRef} from 'react'
 import axios from 'axios'
 import './Login.css'
 
-import { UsersContext } from './usersContext';
-import { useNavigate } from 'react-router-dom';
-
 function Login() {
-    const [error, setError] = useState(null);
-    const navigate = useNavigate();
-    const { user, setUser } = useContext(UsersContext);
+    const [data, setData] = useState([]);
+    const [loading, setLoading] = useState(true);
+    const [isLoggedIn, setIsLoggedIn] = useState(false);
+
     const userNameInput = useRef(null);
     const passwordInput = useRef(null);
     
     useEffect(() => {
-        if(localStorage.getItem("token")){
-            navigate('/Home');
+        const fetchData = async() =>{
+            try{
+                const response = await fetch('https://dummyjson.com/users');
+                const result = await response.json();
+                setData(result.users);
+                setLoading(false);
+            }catch(error){
+                console.error('error in this line',error);
+                setLoading(false);
+            }
         }
+        fetchData();
     },[])
+    
+    useEffect(()=>{
+        console.log(passwordInput.current.value);
+    },[passwordInput.current])
+  const handelOnClick = (e) =>{
+    e.preventDefault(); 
+    const username = userNameInput.current.value;
+    const password = passwordInput.current.value;
 
-    const handleLogin = async(e) => {
-        e.preventDefault();
-        setError(null);
-
-        const username = userNameInput.current.value;
-        const password = passwordInput.current.value;
-
-        if(!username || ! password){
-            alert("please enter both username and password");
-            return;
-        }
-        try{
-            const response = await axios.post("https://dummyjson.com/auth/login",{
-                username , password
-            });
-            const userData = response.data;
-            // Save token &  user
-            localStorage.setItem("token",userData.token);
-            localStorage.setItem("user",JSON.stringify(userData));
-
-            setUser(userData);
-            navigate('/Home');
-            window.location.reload()
-        }catch(error){
-            console.error("login failded : ", error);
-            setError("Invalid username or password.");
-        }
-    };
-
+    if(!password || !username) {
+        alert("Please enter both username and password!")
+        return;
+    }
+    const user = data.find((user)=> user.username === username && user.password === password);
+    if (user) {        
+        localStorage.setItem(`user`,user.username);
+        localStorage.setItem('loggedIn',JSON.stringify(true));
+        setIsLoggedIn(true);
+        window.location.href=  '/Home';
+        alert('Successful login!');
+    } else {
+        setIsLoggedIn(false);
+        alert('Invalid username or password.');
+    }
+  }
+  
   return (
     <div className="login">
         <div className='content_login'>
@@ -60,14 +63,12 @@ function Login() {
                     Password
                     <input ref={passwordInput} type="password" placeholder='Enter your password' />
                 </label>
-                <button onClick={handleLogin} className='btn_sign' type='submit'>Sign In</button>
+                <button onClick={handelOnClick} className='btn_sign' type='submit'>Sign In</button>
             </form>
-            {error && <p className="error">{error}</p>}
+            {loading && <p>Loadding ....</p>}
         </div>
     </div>
   )
 }
 
 export default Login
-
-
