@@ -39,7 +39,7 @@ function Navbar() {
                         <li><NavLink onClick={() => {handleLogout() , closeDropdown()}} className="btn_logout">Log Out</NavLink></li>
                     )}
                     {isLoggedIn && <li><NavLink to="/Cart" onClick={closeDropdown}>Cart</NavLink></li>}
-                    {isLoggedIn && <p>Welcome, {username}</p>}
+                    {isLoggedIn && <li>Welcome, {username}</li>}
                 </ul>
             </div>
         </div>
