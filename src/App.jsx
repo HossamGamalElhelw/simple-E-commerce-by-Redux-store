@@ -3,10 +3,10 @@ import { BrowserRouter, Route, Routes, Navigate } from 'react-router-dom';
 import Login from './components/Login';
 import Navbar from './components/Navbar';
 import Home from './components/Home';
-import ProtectRoute from './components/ProtectRoute';
-import Cart from './components/Cart';
-import { UserProvider } from './components/usersContext';
+import ProtectRoute from './components/protectRoute';
+
 import './App.css';
+import Cart from './components/cart';
 
 function App() {
   const isLoggedIn = localStorage.getItem("token") !== null;  
